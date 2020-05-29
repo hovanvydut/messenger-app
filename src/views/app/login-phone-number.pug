@@ -5,22 +5,22 @@ block content
     h5 Login with phone number
 
     form#login-phone-number(method='POST')
+      //- .form-group.input-group-lg
+      //-   input.form-control(type='text' name='firstName' placeholder='Firstname' required='' autofocus='')
+      //- .form-group.input-group-lg
+      //-   input.form-control(type='text' name='lastName' placeholder='Lastname' required='')
       .form-group.input-group-lg
-        input.form-control(type='text' name='firstName' placeholder='Firstname' required='' autofocus='')
-      .form-group.input-group-lg
-        input.form-control(type='text' name='lastName' placeholder='Lastname' required='')
-      .form-group.input-group-lg
-        input.form-control(type='text' name='phoneNumber' placeholder='Phone number' required='' autofocus='')
-        #recaptcha-container
-      button.btn.btn-primary.btn-lg.btn-block(type='submit') Sign in
+        input#phoneNumberFromUserInput.form-control(type='text' name='phoneNumber' placeholder='Phone number' required='' autofocus='')
+      #recaptcha-container
+      button#signInPhoneBtn.btn.btn-primary.btn-lg.btn-block(type='button' onclick='signInPhone(event)') Sign in
 
   div#login-phone-step2
     h5 Verify code
 
     form#phone-number-verify(method='POST')
       .form-group.input-group-lg
-        input.form-control(type='text' name='code' placeholder='Code' required='' autofocus='')
-      button.btn.btn-primary.btn-lg.btn-block(type='submit') Verify
+        input#codeNumber.form-control(type='text' name='code' placeholder='Code' required='' autofocus='')
+      button#codeNumberBtn.btn.btn-primary.btn-lg.btn-block(type='button') Verify
 
   hr
   p.text-muted Login with your social media account.

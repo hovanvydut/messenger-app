@@ -3,18 +3,19 @@ extends ../../layouts/sign
 block content
   h5 Create account
 
-  form
+  form(method='POST' enctype="application/x-www-form-urlencoded")
+    //- .form-group.input-group-lg
+    //-   input.form-control(name='firstName' type='text' placeholder='Firstname' required='' autofocus='')
+    //- .form-group.input-group-lg
+    //-   input.form-control(name='lastName' type='text' placeholder='Lastname' required='')
     .form-group.input-group-lg
-      input.form-control(type='text' placeholder='Firstname' required='' autofocus='')
+      input#emailRegister.form-control(name='email' type='email' placeholder='Email' required='')
     .form-group.input-group-lg
-      input.form-control(type='text' placeholder='Lastname' required='')
-    .form-group.input-group-lg
-      input.form-control(type='email' placeholder='Email' required='')
-    .form-group.input-group-lg
-      input.form-control(type='password' placeholder='Password' required='')
+      input#passwordRegister.form-control(name='password' type='password' placeholder='Password' required='')
     .form-group.input-group-lg
       #recaptcha-container
-    button.btn.btn-primary.btn-lg.btn-block Register
+    button#btnRegister.btn.btn-primary.btn-lg.btn-block(type='submit' onclick='registerWithEmail(event)') Register
     hr
     p.text-muted Already have an account?
     a.btn.btn-outline-light.btn-sm(href='/account/login') Sign in!
+  

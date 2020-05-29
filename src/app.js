@@ -3,25 +3,19 @@ const express = require('express');
 const logger = require('morgan');
 
 const app = express();
+const configRouter = require('./config/config.route');
+const mainRouter = require('./routes/main.route');
 
 // config
-const PORT = 3000 || process.env.PORT;
+const PORT = process.env.PORT || 3000;
+
 app.use(logger('dev'));
 app.use('/static', express.static('./src/public'));
 app.set('views', './src/views');
 app.set('view engine', 'pug');
 
 // router
-app
-  .get('/account/login', (req, res) => {
-    return res.render('app/login');
-  })
-  .get('/account/register', (req, res) => {
-    return res.render('app/auth/register');
-  })
-  .get('/account/register-email', (req, res) => {
-    return res.render('app/auth/register-email');
-  });
-app.get('/', (req, res) => res.send('Hello'));
+configRouter(app, express);
+app.use(mainRouter);
 
 app.listen(PORT, () => console.log(`Server is running at port ${PORT}`));
