@@ -11,7 +11,11 @@ async function signInWithGoogle(event) {
     localStorage.setItem('token', token);
     window.location.replace('/');
   } catch (error) {
-    alert(error.message);
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: error.message,
+    });
   }
 }
 
@@ -23,9 +27,20 @@ async function registerWithEmail(event) {
 
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
-    window.location.href = '/account/login';
+    Swal.fire({
+      icon: 'success',
+      title: 'Register successfully.',
+      // text: error.message,
+      confirmButtonText: 'Login',
+    }).then((result) => {
+      if (result.value) window.location.href = '/account/login';
+    });
   } catch (error) {
-    alert(error.message);
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: error.message,
+    });
   }
 }
 
@@ -41,7 +56,11 @@ async function handleLogin(event) {
     localStorage.setItem('token', token);
     window.location.replace('/');
   } catch (error) {
-    alert(error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: error.message,
+    });
   }
 }
 
@@ -63,7 +82,11 @@ if (document.getElementById('signOutPage')) {
       }, 1000);
     })
     .catch(function (error) {
-      alert('SignOut failed');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Signout failed!',
+      });
     });
 }
 
@@ -80,10 +103,11 @@ async function signInPhone(event) {
         firebase
           .auth()
           .signInWithPhoneNumber(phoneNumber, appVerifier)
-          .then(function (confirmationResult) {
+          .then(async function (confirmationResult) {
             // SMS sent. Prompt user to type the code from the message, then sign the
             // user in with confirmationResult.confirm(code).
             window.confirmationResult = confirmationResult;
+
             document.getElementById('login-phone-step2').style.display =
               'block';
 
@@ -103,16 +127,28 @@ async function signInPhone(event) {
                   })
                   .catch(function (error) {
                     // User couldn't sign in (bad verification code?)
-                    alert(error.message);
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: error.message,
+                    });
                   });
               });
           })
           .catch(function (error) {
-            alert(error.message);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: error.message,
+            });
           });
       },
       'expired-callback': function () {
-        alert('recaptcha expire');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Recaptcha expried',
+        });
       },
     }
   );
