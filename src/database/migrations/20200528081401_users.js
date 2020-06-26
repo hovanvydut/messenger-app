@@ -2,10 +2,16 @@ const TABLE_NAME = 'users';
 
 exports.up = (knex) => {
   return knex.schema.createTable(TABLE_NAME, (table) => {
-    table.increments('id').primary();
-    table.string('email', 255).notNullable();
-    table.string('first_name', 255).notNullable();
-    table.string('last_name', 255).notNullable();
+    table.string('id').primary();
+    table.string('username').unique();
+    table.string('email').unique();
+    table.string('phone').unique();
+    table.string('password');
+    table.string('fullName');
+    table.string('avatar');
+    table.string('website');
+    table.string('city');
+    table.string('description');
   });
 };
 

@@ -1,0 +1,17 @@
+#allFriendSidebar.sidebar
+          header
+            span All Friends
+            ul.list-inline
+              li.list-inline-item(data-toggle='tooltip' title='' data-original-title='Add new friend')
+                a.btn.btn-light(href='#' data-toggle='modal' data-target='#addFriendsModal')
+                  i.fa.fa-plus 
+              li.list-inline-item
+                a.btn.btn-light(data-toggle="modal" data-navigation-target='addFriendSidebar' href='#' data-original-title='New Chat')
+                  i.fa.fa-user-friends Request
+              li.list-inline-item.d-lg-none.d-sm-block
+                a.btn.btn-light.sidebar-close(href='#')
+                  i.ti-close
+          form(action='')
+            input.form-control(type='text' placeholder='Search chat')
+          .sidebar-body(tabindex='3' style='overflow: hidden; outline: none;')
+            ul#allFriendsContainer.list-group.list-group-flush

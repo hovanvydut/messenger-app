@@ -24,7 +24,7 @@
                     .input-group-prepend
                       span.input-group-text
                         i.ti-user
-                    input#fullname.form-control(type='text')
+                    input#fullNameEditProfile.form-control(type='text')
                 .form-group
                   label.col-form-label Avatar
                   .d-flex.align-items-center
@@ -40,21 +40,28 @@
                     .input-group-prepend
                       span.input-group-text
                         i.ti-map-alt
-                    input#city.form-control(type='text')
+                    input#cityEditProfile.form-control(type='text')
+                .form-group
+                  label.col-form-label(for='email') Email
+                  .input-group
+                    .input-group-prepend
+                      span.input-group-text
+                        i.ti-user
+                    input#emailEditProfile.form-control(type='email')
                 .form-group
                   label.col-form-label(for='phone') Phone
                   .input-group
                     .input-group-prepend
                       span.input-group-text
                         i.ti-mobile
-                    input#phone.form-control(type='text' placeholder='(555) 555 55 55')
+                    input#phoneEditProfile.form-control(type='text' placeholder='(555) 555 55 55')
                 .form-group
                   label.col-form-label(for='website') Website
                   .input-group
                     .input-group-prepend
                       span.input-group-text
                         i.ti-link
-                    input#website.form-control(type='text')
+                    input#websiteEditProfile.form-control(type='text')
             #about.tab-pane(role='tabpanel')
               form(action='')
                 .form-group
@@ -116,4 +123,4 @@
                         i.fa.fa-whatsapp
                     input.form-control(type='text' placeholder='Username')
         .modal-footer
-          button.btn.btn-primary(type='button') Save
+          button#saveBtnEditProfile.btn.btn-primary(type='button') Save

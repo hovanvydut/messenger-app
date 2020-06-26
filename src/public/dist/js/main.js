@@ -1,3 +1,34 @@
+async function registerWithEmail(event) {
+  event.preventDefault();
+  const username = document.getElementById('usernameRegisterEmail').value;
+  const email = document.getElementById('emailRegisterEmail').value;
+  const password = document.getElementById('passwordRegisterEmail').value;
+  let customToken;
+  try {
+    customToken = await axios.post('/account/register-email', {
+      username,
+      email,
+      password,
+    });
+    // show message
+    Swal.fire({
+      icon: 'success',
+      title: 'Verify email !!!',
+      confirmButtonText: 'Go to login page',
+      text: 'Please check your email and confirm active-link <3',
+    }).then((result) => {
+      if (result.value) window.location.replace('/account/login');
+    });
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: error.response.data,
+    });
+  }
+}
+
+/* ****** */
 async function signInWithGoogle(event) {
   event.preventDefault();
   const ggProvider = new firebase.auth.GoogleAuthProvider();
@@ -6,35 +37,11 @@ async function signInWithGoogle(event) {
 
     const ggAccessToken = result.credential.accessToken;
     localStorage.setItem('ggAccessToken', ggAccessToken);
-
+    console.log(result);
+    alert('OK');
     const token = await result.user.getIdToken(true);
     localStorage.setItem('token', token);
     window.location.replace('/');
-  } catch (error) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: error.message,
-    });
-  }
-}
-
-// Register
-async function registerWithEmail(event) {
-  event.preventDefault();
-  const email = document.getElementById('emailRegister').value;
-  const password = document.getElementById('passwordRegister').value;
-
-  try {
-    await firebase.auth().createUserWithEmailAndPassword(email, password);
-    Swal.fire({
-      icon: 'success',
-      title: 'Register successfully.',
-      // text: error.message,
-      confirmButtonText: 'Login',
-    }).then((result) => {
-      if (result.value) window.location.href = '/account/login';
-    });
   } catch (error) {
     Swal.fire({
       icon: 'error',
@@ -66,6 +73,7 @@ async function handleLogin(event) {
 
 // Sign Out
 if (document.getElementById('signOutPage')) {
+  window.localStorage.removeItem('token');
   firebase
     .auth()
     .signOut()
@@ -110,6 +118,9 @@ async function signInPhone(event) {
 
             document.getElementById('login-phone-step2').style.display =
               'block';
+            document.getElementById('recaptcha-container').style.display =
+              'none';
+            document.getElementById('signInPhoneBtn').style.display = 'none';
 
             document
               .getElementById('codeNumberBtn')

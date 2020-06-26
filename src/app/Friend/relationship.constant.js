@@ -1,0 +1,5 @@
+module.exports = {
+  USER1_SEND_REQUEST_USER2: 1,
+  USER1_RECEIVE_USER2: 2,
+  ACCEPTED: 3,
+};

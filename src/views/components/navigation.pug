@@ -2,7 +2,7 @@ nav.navigation
       .nav-group
         ul
           li
-            a.logo(href='#')
+            a.logo(href='/#')
               svg#Capa_1(version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='33.004px' height='33.003px' viewbox='0 0 33.004 33.003' style='enable-background:new 0 0 33.004 33.003;' xml:space='preserve')
                 g
                   path(d='M4.393,4.788c-5.857,5.857-5.858,15.354,0,21.213c4.875,4.875,12.271,5.688,17.994,2.447l10.617,4.161l-4.857-9.998\
@@ -29,20 +29,23 @@ nav.navigation
                 g
                 g
           li
-            a(data-navigation-target='chats' href='#')
+            a(data-navigation-target='chats' href='/#')
               i.ti-comment-alt
-          li
-            a.notifiy_badge(data-navigation-target='friends' href='#')
+          //- li
+          //-   a.notifiy_badge(data-toggle="modal" data-target='#addFriends' href='#')
+          //-     i.ti-user
+          li#addFriendNavigation
+            a.notifiy_badge(data-toggle="modal" data-navigation-target='addFriendSidebar' href='#')
               i.ti-user
           li.brackets(data-navigation-target='favorites')
-            a(href='#')
+            a(href='/#')
               i.ti-star
           li
-            a(href='#' data-toggle='modal' data-target='#editProfileModal')
+            a(href='/#' data-toggle='modal' data-target='#editProfileModal')
               i.ti-pencil
           li
-            a(href='#' data-toggle='modal' data-target='#settingModal')
+            a(href='/#' data-toggle='modal' data-target='#settingModal')
               i.ti-settings
-          li
-            a(href='/login')
+          li#signOutBtn
+            a(href='/account/sign-out')
               i.ti-power-off
