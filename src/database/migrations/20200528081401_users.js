@@ -1,3 +1,5 @@
+const randomAvatar = require('../../helper/randomAvatar');
+
 const TABLE_NAME = 'users';
 
 exports.up = (knex) => {
@@ -8,7 +10,7 @@ exports.up = (knex) => {
     table.string('phone').unique();
     table.string('password');
     table.string('fullName');
-    table.string('avatar');
+    table.string('avatar').defaultTo(randomAvatar());
     table.string('website');
     table.string('city');
     table.string('description');

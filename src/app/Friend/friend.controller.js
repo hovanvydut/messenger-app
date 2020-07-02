@@ -4,21 +4,42 @@ class FriendController {
   static instance;
 
   constructor() {
-    this.friendService = new FriendService();
+    this.friendService = FriendService.getInstance();
   }
 
-  getInstance() {
+  static getInstance() {
     return this.instance ? this.instance : new this();
   }
 
-  async addFriendRequest(req, res) {
+  async sendFriendRequest(req, res) {
     const { authUser } = req;
-    const { emailReceiver } = req.body;
+    const { emailReceiver, messageAddFriend } = req.body;
     try {
-      await this.friendService.addFriendRequest(authUser, emailReceiver);
+      await this.friendService.sendFriendRequest(
+        authUser,
+        emailReceiver,
+        messageAddFriend
+      );
       return res.status(200).json({ emailReceiver });
     } catch (error) {
-      return res.status(400).send('Failed');
+      console.log(error.message);
+      return res.status(400).json({ message: error.message });
+    }
+  }
+
+  async deleteFriendRequest(req, res) {
+    const friendRequestId = req.params.id;
+    const currentUserId = req.authUser.user_id;
+    try {
+      await this.friendService.deleteFriendRequest(
+        friendRequestId,
+        currentUserId
+      );
+      return res
+        .status(200)
+        .json({ message: 'Delete friend request successfully' });
+    } catch (error) {
+      return res.status(400).json({ message: 'Error when delete' });
     }
   }
 
@@ -26,7 +47,7 @@ class FriendController {
     const { authUser } = req;
     const receiverId = authUser.user_id;
 
-    const listFriends = await this.friendService.getAllRequestFriends(
+    const listFriends = await this.friendService.getAllFriendRequestTo(
       receiverId
     );
 
@@ -44,7 +65,7 @@ class FriendController {
 
   async acceptFriendRequest(req, res) {
     const { authUser } = req;
-    const senderId = req.body.senderId;
+    const { senderId } = req.body;
     const receiverId = authUser.user_id;
 
     try {
@@ -52,11 +73,23 @@ class FriendController {
         receiverId,
         senderId
       );
-      console.log(acceptedSenderId);
       return res.status(200).json(acceptedSenderId);
     } catch (error) {
       return res.status(400).send('NOT ACCEPT');
     }
+  }
+
+  async deleteFriend(req, res) {
+    const { authUser } = req;
+    const { deletingUserId } = req.params;
+    try {
+      await this.friendService.deleteFriend(authUser.user_id, deletingUserId);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ message: 'Error when query database' });
+    }
+
+    return res.status(200).json({ message: 'Delete user friend success' });
   }
 }
 

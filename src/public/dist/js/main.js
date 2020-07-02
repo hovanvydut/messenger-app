@@ -56,11 +56,12 @@ async function handleLogin(event) {
   const email = document.getElementById('emailLogin').value;
   const password = document.getElementById('passwordLogin').value;
   try {
-    const result = await firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password);
-    const token = await result.user.getIdToken(true);
-    localStorage.setItem('token', token);
+    const response = await axios({
+      method: 'POST',
+      url: '/account/login-email',
+      data: { email, password },
+    });
+    localStorage.setItem('token', response.data.token);
     window.location.replace('/');
   } catch (error) {
     Swal.fire({
@@ -107,6 +108,7 @@ async function signInPhone(event) {
       callback: async function (response) {
         const phoneNumber = document.getElementById('phoneNumberFromUserInput')
           .value;
+        console.log(phoneNumber);
         const appVerifier = window.recaptchaVerifier;
         firebase
           .auth()
@@ -121,7 +123,7 @@ async function signInPhone(event) {
             document.getElementById('recaptcha-container').style.display =
               'none';
             document.getElementById('signInPhoneBtn').style.display = 'none';
-
+            console.log('check');
             document
               .getElementById('codeNumberBtn')
               .addEventListener('click', (event) => {
@@ -131,9 +133,14 @@ async function signInPhone(event) {
                   .confirm(codeNumber)
                   .then(async function (result) {
                     // User signed in successfully.
+
                     var user = result.user;
                     const token = await user.getIdToken(true);
                     localStorage.setItem('token', token);
+                    await axios.post('/account/register-phone', {
+                      phone: phoneNumber,
+                      id: firebase.auth().currentUser.uid,
+                    });
                     window.location.replace('/');
                   })
                   .catch(function (error) {

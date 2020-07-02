@@ -17,6 +17,7 @@ exports.up = (knex) => {
       .inTable(TABLE_NAME_2)
       .onDelete('CASCADE');
     table.integer('relationship').notNullable();
+    table.string('messageAddFriend');
     table.timestamp('last_updated').defaultTo(knex.fn.now());
   });
 };

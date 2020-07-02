@@ -1,49 +1,15 @@
-const bcrypt = require('bcrypt');
-const nodemailer = require('nodemailer');
-const smtpTransport = require('nodemailer-smtp-transport');
-const firebaseClient = require('../../database/firebase.connection');
-const firebaseAdmin = require('../../database/firebaseAdmin.connection');
-const knex = require('../../database/knex.connection');
-
-const handleRegisterByEmail = async (req, res) => {
-  const { email, password, firstName, lastName } = req.body;
-  const currentUser = await firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .catch((error) => {
-      // const errorCode = error.code;
-      const errorMessage = error.message;
-      return res.status(403).json(errorMessage);
-    });
-
-  await knex('users').insert({
-    first_name: firstName,
-    last_name: lastName,
-    email: currentUser.user.email,
-  });
-  return res.json(req.body);
-};
-
-const handleLoginByEmail = async (req, res) => {
-  const { email, password } = req.body;
-
-  const currentUser = await firebaseClient
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      if (errorCode === 'auth/wrong-password') {
-        return res.status(401).json({ message: 'Wrong password' });
-      }
-      return res.status(401).json({ message: errorMessage });
-    });
-
-  return res.status(200).json(currentUser.user);
-};
+const AuthService = require('./auth.service');
 
 class AuthController {
-  constructor() {}
+  static instance;
+
+  constructor() {
+    this.authService = AuthService.getInstance();
+  }
+
+  static getInstance() {
+    return this.instance ? this.instance : new this();
+  }
 
   viewLogin(req, res) {
     return res.render('app/login');
@@ -65,63 +31,46 @@ class AuthController {
     return res.render('app/login-phone-number');
   }
 
-  async handleRegisterByEmail(req, res, next) {
+  async handleRegisterByEmail(req, res) {
     const { username, email, password } = req.body;
-
-    let userRecord;
     try {
-      userRecord = await firebaseAdmin.auth().createUser({
-        email,
-        emailVerified: false,
-        password,
-      });
-    } catch (error) {
-      return res.status(401).send(error.errorInfo.message);
-    }
-
-    const salt = await bcrypt.genSalt();
-    const hashPassword = await bcrypt.hash(password, salt);
-
-    try {
-      await knex('users').insert({
-        id: userRecord.uid,
-        username,
-        email,
-        password: hashPassword,
-      });
+      await this.authService.registerByEmail(username, email, password);
     } catch (error) {
       console.log(error);
+      return res.status(400).json({ message: error.message });
     }
-
-    const emailVerificationLink = await firebaseAdmin
-      .auth()
-      .generateEmailVerificationLink(email);
-
-    const transporter = nodemailer.createTransport(
-      smtpTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.MAIL_ACCOUNT,
-          pass: process.env.MAIL_PASSWORD,
-        },
-        tls: { rejectUnauthorized: false },
-      })
-    );
-
-    transporter.sendMail({
-      from: 'ChatApp', // sender address
-      to: email, // list of receivers
-      subject: 'Active your account ✔', // Subject line
-      text: 'Click link bellow to active your account', // plain text body
-      html: `<a>${emailVerificationLink}</a>`, // html body
-    });
 
     return res.status(201).json('OKE NEK');
   }
+
+  async handleLoginByEmail(req, res) {
+    const { email, password } = req.body;
+    let currentUser;
+    let token;
+
+    try {
+      currentUser = await this.authService.loginByEmail(email, password);
+      token = await currentUser.user.getIdToken();
+    } catch (error) {
+      return res.status(401).json({ message: error.message });
+    }
+
+    return res.status(200).json({ token });
+  }
+
+  async registerPhone(req, res) {
+    const { phone, id } = req.body;
+    console.log(phone);
+    try {
+      await this.authService.registerPhone(id, phone);
+      return res.status(200).json({ message: 'OK' });
+    } catch (error) {
+      if (error.code == '23505') {
+        return res.status(200).json({ message: 'OK' });
+      }
+      return res.status(400).json({ message: error.message });
+    }
+  }
 }
 
-module.exports = {
-  handleRegisterByEmail,
-  handleLoginByEmail,
-  AuthController,
-};
+module.exports = AuthController;

@@ -3,10 +3,10 @@ const FriendController = require('./friend.controller');
 const AuthMiddleware = require('../Auth/auth.middleware');
 
 const authMiddleware = new AuthMiddleware();
-const friendController = new FriendController();
+const friendController = FriendController.getInstance();
 
 router
-
+  .use(authMiddleware.validateToken)
   // GET  user/friends/requests
   // PUT/PATCH friends/accept
   // POST friends/request
@@ -14,25 +14,20 @@ router
   // list all request-friends
   .get(
     '/requests',
-    authMiddleware.validateToken,
     friendController.getAllRequestFriends.bind(friendController)
   )
-  .get(
-    '/all',
-    authMiddleware.validateToken,
-    friendController.allFriends.bind(friendController)
+  .delete(
+    '/:id/request',
+    friendController.deleteFriendRequest.bind(friendController)
   )
+  .get('/all', friendController.allFriends.bind(friendController))
   // accept request-friend
-  .post(
-    '/accept',
-    authMiddleware.validateToken,
-    friendController.acceptFriendRequest.bind(friendController)
+  .patch('/accept', friendController.acceptFriendRequest.bind(friendController))
+  .delete(
+    '/:deletingUserId/delete',
+    friendController.deleteFriend.bind(friendController)
   )
   // send request-friend
-  .post(
-    '/request',
-    authMiddleware.validateToken,
-    friendController.addFriendRequest.bind(friendController)
-  );
+  .post('/request', friendController.sendFriendRequest.bind(friendController));
 
 module.exports = router;
