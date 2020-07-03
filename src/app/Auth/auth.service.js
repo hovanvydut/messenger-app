@@ -1,8 +1,8 @@
-const firebaseAdmin = require('../../database/firebaseAdmin.connection');
-const AuthRepository = require('./auth.repository');
-const nodemailer = require('nodemailer');
-const smtpTransport = require('nodemailer-smtp-transport');
-const bcrypt = require('bcrypt');
+import firebaseAdmin from '../../database/firebaseAdmin.connection.js';
+import AuthRepository from './auth.repository.js';
+import nodemailer from 'nodemailer';
+import smtpTransport from 'nodemailer-smtp-transport';
+import bcrypt from 'bcrypt';
 
 class AuthService {
   static instance;
@@ -29,7 +29,7 @@ class AuthService {
       });
     } catch (error) {
       console.log(error);
-      return error;
+      throw error;
     }
 
     const salt = await bcrypt.genSalt();
@@ -44,7 +44,7 @@ class AuthService {
       });
     } catch (error) {
       console.log(error);
-      return error;
+      throw error;
     }
 
     const emailVerificationLink = await firebaseAdmin
@@ -76,4 +76,4 @@ class AuthService {
   }
 }
 
-module.exports = AuthService;
+export default AuthService;

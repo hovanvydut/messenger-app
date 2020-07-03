@@ -1,6 +1,8 @@
-const router = require('express').Router();
-const FriendController = require('./friend.controller');
-const AuthMiddleware = require('../Auth/auth.middleware');
+import express from 'express';
+import FriendController from './friend.controller.js';
+import AuthMiddleware from '../Auth/auth.middleware.js';
+
+const router = express.Router();
 
 const authMiddleware = new AuthMiddleware();
 const friendController = FriendController.getInstance();
@@ -30,4 +32,4 @@ router
   // send request-friend
   .post('/request', friendController.sendFriendRequest.bind(friendController));
 
-module.exports = router;
+export default router;

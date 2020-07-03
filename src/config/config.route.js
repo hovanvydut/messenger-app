@@ -1,4 +1,4 @@
-const methodOverride = require('method-override');
+import methodOverride from 'method-override';
 
 const configRoute = (app, express) => {
   app.use(express.urlencoded({ extended: true }));
@@ -23,4 +23,4 @@ const configRoute = (app, express) => {
   });
 };
 
-module.exports = configRoute;
+export default configRoute;

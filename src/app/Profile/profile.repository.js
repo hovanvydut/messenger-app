@@ -1,4 +1,4 @@
-const knex = require('../../database/knex.connection');
+import knex from '../../database/knex.connection.js';
 
 class ProfileRepository {
   async updateProfile(req, res, next) {
@@ -14,4 +14,4 @@ class ProfileRepository {
   }
 }
 
-module.exports = ProfileRepository;
+export default ProfileRepository;

@@ -1,4 +1,4 @@
-const AuthService = require('./auth.service');
+import AuthService from './auth.service.js';
 
 class AuthController {
   static instance;
@@ -73,4 +73,4 @@ class AuthController {
   }
 }
 
-module.exports = AuthController;
+export default AuthController;

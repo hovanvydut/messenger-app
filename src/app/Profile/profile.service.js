@@ -1,4 +1,4 @@
-const ProfileRepository = require('./profile.repository');
+import ProfileRepository from './profile.repository.js';
 
 class ProfileService {
   constructor() {
@@ -10,4 +10,4 @@ class ProfileService {
   }
 }
 
-module.exports = ProfileService;
+export default ProfileService;

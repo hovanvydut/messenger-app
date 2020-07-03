@@ -1,4 +1,4 @@
-const FriendService = require('./friend.service');
+import FriendService from './friend.service.js';
 
 class FriendController {
   static instance;
@@ -75,7 +75,7 @@ class FriendController {
       );
       return res.status(200).json(acceptedSenderId);
     } catch (error) {
-      return res.status(400).send('NOT ACCEPT');
+      return res.status(400).json({ message: error.message });
     }
   }
 
@@ -85,12 +85,11 @@ class FriendController {
     try {
       await this.friendService.deleteFriend(authUser.user_id, deletingUserId);
     } catch (error) {
-      console.log(error);
-      return res.status(400).json({ message: 'Error when query database' });
+      return res.status(400).json({ message: error.message });
     }
 
     return res.status(200).json({ message: 'Delete user friend success' });
   }
 }
 
-module.exports = FriendController;
+export default FriendController;

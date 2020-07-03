@@ -1,9 +1,10 @@
-const firebaseAdmin = require('firebase-admin');
-const serviceAccountPath = require('../../serviceAccount.json');
+import firebaseAdmin from 'firebase-admin';
+
+import serviceAccount from '../../serviceAccount.js';
 
 firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(serviceAccountPath),
+  credential: firebaseAdmin.credential.cert(serviceAccount()),
   databaseURL: 'https://messenger-app-339d8.firebaseio.com',
 });
 
-module.exports = firebaseAdmin;
+export default firebaseAdmin;

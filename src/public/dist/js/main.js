@@ -23,7 +23,7 @@ async function registerWithEmail(event) {
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
-      text: error.response.data,
+      text: error.response.data.message,
     });
   }
 }
@@ -46,7 +46,7 @@ async function signInWithGoogle(event) {
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
-      text: error.message,
+      text: error.response.data.message,
     });
   }
 }
@@ -67,7 +67,7 @@ async function handleLogin(event) {
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
-      text: error.message,
+      text: error.response.data.message,
     });
   }
 }
@@ -94,7 +94,7 @@ if (document.getElementById('signOutPage')) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Signout failed!',
+        text: error.response.data.message,
       });
     });
 }
@@ -148,7 +148,7 @@ async function signInPhone(event) {
                     Swal.fire({
                       icon: 'error',
                       title: 'Oops...',
-                      text: error.message,
+                      text: error.response.data.message,
                     });
                   });
               });
@@ -157,7 +157,7 @@ async function signInPhone(event) {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: error.message,
+              text: error.response.data.message,
             });
           });
       },

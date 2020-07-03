@@ -1,6 +1,6 @@
-const firebaseClient = require('../../database/firebase.connection');
-const firebaseAdmin = require('../../database/firebaseAdmin.connection');
-const knex = require('../../database/knex.connection');
+import firebaseClient from '../../database/firebase.connection.js';
+import firebaseAdmin from '../../database/firebaseAdmin.connection.js';
+import knex from '../../database/knex.connection.js';
 
 class AuthRepository {
   static instance;
@@ -24,4 +24,4 @@ class AuthRepository {
   }
 }
 
-module.exports = AuthRepository;
+export default AuthRepository;

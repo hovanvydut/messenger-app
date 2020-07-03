@@ -1,4 +1,4 @@
-const firebaseAdmin = require('firebase-admin');
+import firebaseAdmin from 'firebase-admin';
 
 class AuthMiddleware {
   async validateToken(req, res, next) {
@@ -20,4 +20,4 @@ class AuthMiddleware {
   }
 }
 
-module.exports = AuthMiddleware;
+export default AuthMiddleware;

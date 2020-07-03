@@ -1,5 +1,5 @@
-const knex = require('../../database/knex.connection');
-const relationEnum = require('./relationship.constant');
+import knex from '../../database/knex.connection.js';
+import relationEnum from './relationship.constant.js';
 
 class FriendRepository {
   static instance;
@@ -62,4 +62,4 @@ class FriendRepository {
   }
 }
 
-module.exports = FriendRepository;
+export default FriendRepository;

@@ -1,5 +1,5 @@
-const FriendRepository = require('./friend.repository');
-const relationEnum = require('./relationship.constant');
+import FriendRepository from './friend.repository.js';
+import relationEnum from './relationship.constant.js';
 
 class FriendService {
   static instance;
@@ -25,11 +25,7 @@ class FriendService {
       authUser.user_id
     );
     if (listFriendRequests.some((request) => receiver.id === request.id)) {
-      try {
-        await this.acceptFriendRequest(receiver.id, authUser.user_id);
-      } catch (error) {
-        throw error;
-      }
+      throw new Error('This person has sent friend request to you');
     }
 
     // b truoc do da gui ket ban cho a, bay gio b tiep tuc gui lai ket ban cho a
@@ -132,4 +128,4 @@ class FriendService {
   }
 }
 
-module.exports = FriendService;
+export default FriendService;

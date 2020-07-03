@@ -1,7 +1,6 @@
-const express = require('express');
-const firebaseAdmin = require('../../database/firebaseAdmin.connection');
-// const firebase = require('../../../database/firebase.connection');
-const AuthController = require('./auth.controller');
+import express from 'express';
+import firebaseAdmin from '../../database/firebaseAdmin.connection.js';
+import AuthController from './auth.controller.js';
 
 const authController = new AuthController();
 
@@ -26,4 +25,4 @@ router
   .get('/register-phone', authController.viewRegisterByPhone)
   .post('/register-phone', authController.registerPhone.bind(authController));
 
-module.exports = router;
+export default router;

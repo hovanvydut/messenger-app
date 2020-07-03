@@ -86,8 +86,7 @@ window.addEventListener('DOMContentLoaded', async (event) => {
       } catch (error) {
         Swal.fire({
           icon: 'error',
-          // title: 'sfasdf...',
-          text: error.message,
+          text: error.response.data.message,
         });
       }
     });
@@ -117,7 +116,10 @@ window.addEventListener('DOMContentLoaded', async (event) => {
           .join('');
         document.getElementById('allFriendsContainer').innerHTML = html;
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          text: error.response.data.message,
+        });
       }
     });
 });
@@ -149,7 +151,10 @@ async function getAllFriendRequest(token) {
       .join('');
     document.getElementById('listFriendRequestContainer').innerHTML = html;
   } catch (error) {
-    console.log(error);
+    Swal.fire({
+      icon: 'error',
+      text: error.response.data.message,
+    });
   }
 }
 
@@ -169,7 +174,10 @@ async function acceptRequestFriend(event) {
     );
     elm.parentNode.removeChild(elm);
   } catch (error) {
-    console.log(error);
+    Swal.fire({
+      icon: 'error',
+      text: error.response.data.message,
+    });
   }
 }
 
@@ -187,7 +195,10 @@ async function deleteFriendRequest(event) {
     );
     elm.parentNode.removeChild(elm);
   } catch (error) {
-    console.log(error);
+    Swal.fire({
+      icon: 'error',
+      text: error.response.data.message,
+    });
   }
 }
 
@@ -217,7 +228,10 @@ async function deleteFriendRelationship(event) {
     );
     elm.parentNode.removeChild(elm);
   } catch (error) {
-    console.log(error);
+    Swal.fire({
+      icon: 'error',
+      text: error.response.data.message,
+    });
   }
 }
 
@@ -236,6 +250,9 @@ async function deleteFriendRelationship(event) {
     const elm = document.getElementById('allFriend-' + deletingUserId);
     elm.parentNode.removeChild(elm);
   } catch (error) {
-    console.log(error);
+    Swal.fire({
+      icon: 'error',
+      text: error.response.data.message,
+    });
   }
 }

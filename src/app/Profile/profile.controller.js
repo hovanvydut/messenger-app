@@ -1,4 +1,4 @@
-const ProfileService = require('./profile.service');
+import ProfileService from './profile.service.js';
 
 class ProfileController {
   constructor() {
@@ -10,4 +10,4 @@ class ProfileController {
   }
 }
 
-module.exports = ProfileController;
+export default ProfileController;
